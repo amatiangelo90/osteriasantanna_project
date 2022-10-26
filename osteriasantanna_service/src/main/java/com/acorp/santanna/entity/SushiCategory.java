@@ -1,0 +1,14 @@
+package com.acorp.santanna.entity;
+
+public enum SushiCategory {
+    TARTARESASHIMICARPACCIO,
+    HOSOMAKITEMAKI,
+    ROLLS8PZ,
+    SUSHIGIO2PZ,
+    SPECIALS,
+    SUSHIDEFAULT,
+    NIGIRI1PZ,
+    SUSHISPECIALETONNO,
+    SUSHISPECIALERICCIOLA,
+    SUSHISPECIALE;
+}
