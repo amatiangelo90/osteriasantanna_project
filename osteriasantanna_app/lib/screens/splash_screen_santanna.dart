@@ -54,7 +54,7 @@ class _SplashScreenSantAnnaState extends State<SplashScreenSantAnna> {
                         Response<List<Wine>> apiV1WineFindallGet = await bundleNotifier.getSwaggerClient().apiV1WineFindallGet();
                         Response<List<Sushi>> apiV1SushiFindallGet = await bundleNotifier.getSwaggerClient().apiV1SushiFindallGet();
 
-                        print('XXXX');
+
                         if(apiV1ProductFindallGet.isSuccessful){
                           bundleNotifier.setProdList(apiV1ProductFindallGet.body);
                         }

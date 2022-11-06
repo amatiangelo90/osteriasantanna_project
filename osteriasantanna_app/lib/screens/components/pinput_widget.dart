@@ -54,6 +54,7 @@ class _PinputWidgetState extends State<PinputWidget> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Pinput(
+
               controller: pinController,
               focusNode: focusNode,
               androidSmsAutofillMethod:
