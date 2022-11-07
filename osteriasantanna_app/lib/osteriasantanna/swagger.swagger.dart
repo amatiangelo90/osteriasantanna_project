@@ -31,8 +31,7 @@ abstract class Swagger extends ChopperService {
         converter: $JsonSerializableConverter(),
         interceptors: interceptors ?? [],
         authenticator: authenticator,
-        baseUrl:
-            baseUrl ?? 'http://servicedbacorp741w.com:8444/santannaservice');
+        baseUrl: baseUrl ?? 'http://212.227.203.79:8080/santannaservice');
     return _$Swagger(newClient);
   }
 
@@ -199,6 +198,8 @@ abstract class Swagger extends ChopperService {
   ///@param subCategory
   ///@param price
   ///@param available
+  ///@param takeAwayProduct
+  ///@param takeAwayPrice
   Future<chopper.Response> apiV1SushiDeleteDelete({
     int? sushiId,
     String? name,
@@ -207,6 +208,8 @@ abstract class Swagger extends ChopperService {
     String? subCategory,
     num? price,
     bool? available,
+    bool? takeAwayProduct,
+    num? takeAwayPrice,
   }) {
     return _apiV1SushiDeleteDelete(
         sushiId: sushiId,
@@ -215,7 +218,9 @@ abstract class Swagger extends ChopperService {
         category: category,
         subCategory: subCategory,
         price: price,
-        available: available);
+        available: available,
+        takeAwayProduct: takeAwayProduct,
+        takeAwayPrice: takeAwayPrice);
   }
 
   ///delete
@@ -226,6 +231,8 @@ abstract class Swagger extends ChopperService {
   ///@param subCategory
   ///@param price
   ///@param available
+  ///@param takeAwayProduct
+  ///@param takeAwayPrice
   @Delete(path: '/api/v1/sushi/delete')
   Future<chopper.Response> _apiV1SushiDeleteDelete({
     @Query('sushiId') int? sushiId,
@@ -235,6 +242,8 @@ abstract class Swagger extends ChopperService {
     @Query('subCategory') String? subCategory,
     @Query('price') num? price,
     @Query('available') bool? available,
+    @Query('takeAwayProduct') bool? takeAwayProduct,
+    @Query('takeAwayPrice') num? takeAwayPrice,
   });
 
   ///retrieveAll
@@ -256,6 +265,8 @@ abstract class Swagger extends ChopperService {
   ///@param subCategory
   ///@param price
   ///@param available
+  ///@param takeAwayProduct
+  ///@param takeAwayPrice
   Future<chopper.Response> apiV1SushiSavePost({
     int? sushiId,
     String? name,
@@ -264,6 +275,8 @@ abstract class Swagger extends ChopperService {
     String? subCategory,
     num? price,
     bool? available,
+    bool? takeAwayProduct,
+    num? takeAwayPrice,
   }) {
     return _apiV1SushiSavePost(
         sushiId: sushiId,
@@ -272,7 +285,9 @@ abstract class Swagger extends ChopperService {
         category: category,
         subCategory: subCategory,
         price: price,
-        available: available);
+        available: available,
+        takeAwayProduct: takeAwayProduct,
+        takeAwayPrice: takeAwayPrice);
   }
 
   ///save
@@ -283,6 +298,8 @@ abstract class Swagger extends ChopperService {
   ///@param subCategory
   ///@param price
   ///@param available
+  ///@param takeAwayProduct
+  ///@param takeAwayPrice
   @Post(
     path: '/api/v1/sushi/save',
     optionalBody: true,
@@ -295,6 +312,8 @@ abstract class Swagger extends ChopperService {
     @Query('subCategory') String? subCategory,
     @Query('price') num? price,
     @Query('available') bool? available,
+    @Query('takeAwayProduct') bool? takeAwayProduct,
+    @Query('takeAwayPrice') num? takeAwayPrice,
   });
 
   ///update
@@ -305,6 +324,8 @@ abstract class Swagger extends ChopperService {
   ///@param subCategory
   ///@param price
   ///@param available
+  ///@param takeAwayProduct
+  ///@param takeAwayPrice
   Future<chopper.Response> apiV1SushiUpdatePut({
     int? sushiId,
     String? name,
@@ -313,6 +334,8 @@ abstract class Swagger extends ChopperService {
     String? subCategory,
     num? price,
     bool? available,
+    bool? takeAwayProduct,
+    num? takeAwayPrice,
   }) {
     return _apiV1SushiUpdatePut(
         sushiId: sushiId,
@@ -321,7 +344,9 @@ abstract class Swagger extends ChopperService {
         category: category,
         subCategory: subCategory,
         price: price,
-        available: available);
+        available: available,
+        takeAwayProduct: takeAwayProduct,
+        takeAwayPrice: takeAwayPrice);
   }
 
   ///update
@@ -332,6 +357,8 @@ abstract class Swagger extends ChopperService {
   ///@param subCategory
   ///@param price
   ///@param available
+  ///@param takeAwayProduct
+  ///@param takeAwayPrice
   @Put(
     path: '/api/v1/sushi/update',
     optionalBody: true,
@@ -344,6 +371,8 @@ abstract class Swagger extends ChopperService {
     @Query('subCategory') String? subCategory,
     @Query('price') num? price,
     @Query('available') bool? available,
+    @Query('takeAwayProduct') bool? takeAwayProduct,
+    @Query('takeAwayPrice') num? takeAwayPrice,
   });
 
   ///update

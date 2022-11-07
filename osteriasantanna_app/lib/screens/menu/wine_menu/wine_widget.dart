@@ -9,7 +9,8 @@ import '../../../osteriasantanna/swagger.models.swagger.dart';
 import '../../../utils/costants.dart';
 import '../../../utils/utils.dart';
 import '../../components/anchor_tabs.dart';
-import '../../edit_screens/edit_wine_screen.dart';
+import '../../manager_area/create_screens/create_wine_screen.dart';
+import '../../manager_area/edit_screens/edit_wine_screen.dart';
 import '../home_screen.dart';
 class WineWidget extends StatefulWidget {
   const WineWidget({Key? key}) : super(key: key);
@@ -46,8 +47,9 @@ class _WineWidgetState extends State<WineWidget> {
               dataBundle.manageraccess ? Text('') : Column(
                 children: buildRows(dataBundle),
               ),
+
               Expanded(child: AnchorTabPanel(
-                  rebuildBody: !dataBundle.manageraccess,
+                  rebuildBody: true,
                   tabs: tabs,
                   body: buildBody(dataBundle, width, height, tabs, )
               )),
@@ -161,7 +163,11 @@ class _WineWidgetState extends State<WineWidget> {
                       Text(currentList![i].name![0].toUpperCase() + currentList![i].name!.substring(1).toLowerCase(), textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 30, color: Colors.white, fontFamily: 'Dance')),
                       Text('***', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white, fontFamily: 'Dance')),
                       dataBundle.manageraccess ? ElevatedButton(onPressed: () {
-
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => CreateWineScreen(wine: Wine(
+                            wineType: wineWineTypeFromJson(currentList![i].name!)
+                          ),
+                          ),),);
                       },
                         child: Text('Crea ' + currentList![i].name![0].toUpperCase() + currentList![i].name!.substring(1).toLowerCase()),) : SizedBox(height: 0,)
                     ],

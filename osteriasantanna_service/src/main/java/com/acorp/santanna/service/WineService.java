@@ -26,7 +26,7 @@ public class WineService {
     }
 
     public List<Wine> findAll() {
-        return wineRepository.findAll(Sort.by(Sort.Direction.ASC, "wineType"));
+        return wineRepository.findAll(Sort.by(Sort.Direction.ASC, "wineType").and(Sort.by(Sort.Direction.ASC, "name")));
     }
 
     @Transactional
@@ -35,7 +35,6 @@ public class WineService {
 
         if(!updatingWine.isPresent()){
             throw new IllegalStateException("Errore. Non ho trovato vini da aggiornare");
-
         }else{
 
             if(updatingWine.get().getName() != wine.getName())

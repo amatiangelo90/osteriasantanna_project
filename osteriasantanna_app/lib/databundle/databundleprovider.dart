@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/material/slider_theme.dart';
 import 'package:translator/translator.dart';
@@ -260,5 +258,18 @@ class DataBundleNotifier extends ChangeNotifier{
         return Future<String>.value('');
       }
     }
+  }
+
+  void updateWine(Wine wine) {
+
+    for(int i = 0; i < wineList.length; i++){
+      if(wineList[i].wineId == wine.wineId){
+        print('replacing wine in position : ' + i.toString());
+        wineList[i] = wine;
+        break;
+      }
+    }
+    notifyListeners();
+
   }
 }

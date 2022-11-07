@@ -38,4 +38,6 @@ public class Sushi {
     private String subCategory =  "";
     private double price = 0.0;
     private boolean available = true;
+    private boolean takeAwayProduct = false;
+    private double takeAwayPrice = 0.0;
 }

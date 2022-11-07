@@ -288,6 +288,8 @@ class Sushi {
     this.price,
     this.subCategory,
     this.sushiId,
+    this.takeAwayPrice,
+    this.takeAwayProduct,
   });
 
   factory Sushi.fromJson(Map<String, dynamic> json) => _$SushiFromJson(json);
@@ -310,6 +312,10 @@ class Sushi {
   final String? subCategory;
   @JsonKey(name: 'sushiId')
   final num? sushiId;
+  @JsonKey(name: 'takeAwayPrice')
+  final double? takeAwayPrice;
+  @JsonKey(name: 'takeAwayProduct')
+  final bool? takeAwayProduct;
   static const fromJsonFactory = _$SushiFromJson;
   static const toJsonFactory = _$SushiToJson;
   Map<String, dynamic> toJson() => _$SushiToJson(this);
@@ -335,7 +341,14 @@ class Sushi {
                 const DeepCollectionEquality()
                     .equals(other.subCategory, subCategory)) &&
             (identical(other.sushiId, sushiId) ||
-                const DeepCollectionEquality().equals(other.sushiId, sushiId)));
+                const DeepCollectionEquality()
+                    .equals(other.sushiId, sushiId)) &&
+            (identical(other.takeAwayPrice, takeAwayPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.takeAwayPrice, takeAwayPrice)) &&
+            (identical(other.takeAwayProduct, takeAwayProduct) ||
+                const DeepCollectionEquality()
+                    .equals(other.takeAwayProduct, takeAwayProduct)));
   }
 
   @override
@@ -350,6 +363,8 @@ class Sushi {
       const DeepCollectionEquality().hash(price) ^
       const DeepCollectionEquality().hash(subCategory) ^
       const DeepCollectionEquality().hash(sushiId) ^
+      const DeepCollectionEquality().hash(takeAwayPrice) ^
+      const DeepCollectionEquality().hash(takeAwayProduct) ^
       runtimeType.hashCode;
 }
 
@@ -361,7 +376,9 @@ extension $SushiExtension on Sushi {
       String? name,
       double? price,
       String? subCategory,
-      num? sushiId}) {
+      num? sushiId,
+      double? takeAwayPrice,
+      bool? takeAwayProduct}) {
     return Sushi(
         available: available ?? this.available,
         category: category ?? this.category,
@@ -369,7 +386,9 @@ extension $SushiExtension on Sushi {
         name: name ?? this.name,
         price: price ?? this.price,
         subCategory: subCategory ?? this.subCategory,
-        sushiId: sushiId ?? this.sushiId);
+        sushiId: sushiId ?? this.sushiId,
+        takeAwayPrice: takeAwayPrice ?? this.takeAwayPrice,
+        takeAwayProduct: takeAwayProduct ?? this.takeAwayProduct);
   }
 
   Sushi copyWithWrapped(
@@ -379,7 +398,9 @@ extension $SushiExtension on Sushi {
       Wrapped<String?>? name,
       Wrapped<double?>? price,
       Wrapped<String?>? subCategory,
-      Wrapped<num?>? sushiId}) {
+      Wrapped<num?>? sushiId,
+      Wrapped<double?>? takeAwayPrice,
+      Wrapped<bool?>? takeAwayProduct}) {
     return Sushi(
         available: (available != null ? available.value : this.available),
         category: (category != null ? category.value : this.category),
@@ -389,7 +410,12 @@ extension $SushiExtension on Sushi {
         price: (price != null ? price.value : this.price),
         subCategory:
             (subCategory != null ? subCategory.value : this.subCategory),
-        sushiId: (sushiId != null ? sushiId.value : this.sushiId));
+        sushiId: (sushiId != null ? sushiId.value : this.sushiId),
+        takeAwayPrice:
+            (takeAwayPrice != null ? takeAwayPrice.value : this.takeAwayPrice),
+        takeAwayProduct: (takeAwayProduct != null
+            ? takeAwayProduct.value
+            : this.takeAwayProduct));
   }
 }
 

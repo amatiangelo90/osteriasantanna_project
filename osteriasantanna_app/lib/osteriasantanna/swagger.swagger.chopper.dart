@@ -123,6 +123,8 @@ class _$Swagger extends Swagger {
     String? subCategory,
     num? price,
     bool? available,
+    bool? takeAwayProduct,
+    num? takeAwayPrice,
   }) {
     final String $url = '/api/v1/sushi/delete';
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -133,6 +135,8 @@ class _$Swagger extends Swagger {
       'subCategory': subCategory,
       'price': price,
       'available': available,
+      'takeAwayProduct': takeAwayProduct,
+      'takeAwayPrice': takeAwayPrice,
     };
     final Request $request = Request(
       'DELETE',
@@ -163,6 +167,8 @@ class _$Swagger extends Swagger {
     String? subCategory,
     num? price,
     bool? available,
+    bool? takeAwayProduct,
+    num? takeAwayPrice,
   }) {
     final String $url = '/api/v1/sushi/save';
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -173,6 +179,8 @@ class _$Swagger extends Swagger {
       'subCategory': subCategory,
       'price': price,
       'available': available,
+      'takeAwayProduct': takeAwayProduct,
+      'takeAwayPrice': takeAwayPrice,
     };
     final Request $request = Request(
       'POST',
@@ -192,6 +200,8 @@ class _$Swagger extends Swagger {
     String? subCategory,
     num? price,
     bool? available,
+    bool? takeAwayProduct,
+    num? takeAwayPrice,
   }) {
     final String $url = '/api/v1/sushi/update';
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -202,6 +212,8 @@ class _$Swagger extends Swagger {
       'subCategory': subCategory,
       'price': price,
       'available': available,
+      'takeAwayProduct': takeAwayProduct,
+      'takeAwayPrice': takeAwayPrice,
     };
     final Request $request = Request(
       'PUT',

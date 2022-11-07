@@ -4,10 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:osteriasantannamenu/utils/costants.dart';
 import 'package:provider/provider.dart';
-
-import '../../databundle/databundleprovider.dart';
-import '../../osteriasantanna/swagger.enums.swagger.dart';
-import '../../osteriasantanna/swagger.models.swagger.dart';
+import '../../../databundle/databundleprovider.dart';
+import '../../../osteriasantanna/swagger.enums.swagger.dart';
+import '../../../osteriasantanna/swagger.models.swagger.dart';
 
 class EditWineScreen extends StatefulWidget {
   const EditWineScreen({Key? key, required this.wine}) : super(key: key);
@@ -20,16 +19,32 @@ class EditWineScreen extends StatefulWidget {
 
 class _EditWineScreenState extends State<EditWineScreen> {
 
+  late TextEditingController nameController;
+  late TextEditingController grapesController;
+  late TextEditingController priceController;
+  late TextEditingController yearController;
+  late TextEditingController gradationController;
+  late TextEditingController producerController;
+
+
+  @override
+  void initState() {
+    nameController = TextEditingController(text: widget.wine.name);
+    grapesController = TextEditingController(text: widget.wine.grapes);
+    priceController = TextEditingController(text: widget.wine.price!.toStringAsFixed(2));
+    yearController = TextEditingController(text: widget.wine.year!);
+    gradationController = TextEditingController(text: widget.wine.gradation!);
+    producerController = TextEditingController(text: widget.wine.producer!);
+    dropdownvalue = wineWineTypeToJson(widget.wine.wineType)!;
+
+    super.initState();
+  }
+
   String dropdownvalue = 'BIANCO';
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController(text: widget.wine.name);
-    TextEditingController grapesController = TextEditingController(text: widget.wine.grapes);
-    TextEditingController priceController = TextEditingController(text: widget.wine.price!.toStringAsFixed(2));
-    TextEditingController yearController = TextEditingController(text: widget.wine.year!);
-    TextEditingController gradationController = TextEditingController(text: widget.wine.gradation!);
-    TextEditingController producerController = TextEditingController(text: widget.wine.producer!);
+
     return Consumer<DataBundleNotifier>(
       builder: (child, databundle, _){
 
@@ -136,28 +151,90 @@ class _EditWineScreenState extends State<EditWineScreen> {
                     ),
                   ),
 
-                  ElevatedButton(
-                    onPressed: () async {
-                      print(' WineWineType.values[databundle.dropDownIndex].name --------->' +  dropdownvalue);
-                      Response apiV1WinePut = await databundle.getSwaggerClient().apiV1WinePut(
-                          wineType: dropdownvalue,
-                          name: nameController.text,
-                          available: true,
-                          gradation: gradationController.text,
-                          grapes: grapesController.text,
-                          price: double.parse(priceController.text),
-                          producer: producerController.text,
-                          year: yearController.text
-                      );
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        print(' WineWineType.values[databundle.dropDownIndex].name --------->' +  dropdownvalue);
 
-                      if(apiV1WinePut.isSuccessful){
-                        print('Bravo il coglione');
-                      }else{
-                        print('Errore' + apiV1WinePut.error.toString());
-                      }
-                    },
-                    child: Text('Modifica Prodotto'),
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.lightGreen)),
+                        if(nameController.text == ''){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: Duration(seconds: 2),
+                                backgroundColor: Colors.red,
+                                content: Text('Errore. Nome Obbligatorio'),
+                              )
+                          );
+                        }else if(priceController.text == ''){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: Duration(seconds: 2),
+                                backgroundColor: Colors.red,
+                                content: Text('Errore. Prezzo Obbligatorio'),
+                              )
+                          );
+                        }else if(double.tryParse(priceController.text.replaceAll(',', '.')) == null){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: Duration(seconds: 2),
+                                backgroundColor: Colors.red,
+                                content: Text('Errore. Il prezzo deve essere un numero'),
+                              )
+                          );
+                        }else{
+                          Response apiV1WinePut = await databundle.getSwaggerClient().apiV1WinePut(
+                              wineType: dropdownvalue,
+                              name: nameController.text,
+                              available: true,
+                              gradation: gradationController.text,
+                              grapes: grapesController.text,
+                              price: double.parse(priceController.text.replaceAll(',', '.')),
+                              producer: producerController.text,
+                              year: yearController.text,
+                              country: '',
+                              region: '',
+                              wineId: widget.wine.wineId!.toInt()
+                          );
+
+                          if(apiV1WinePut.isSuccessful){
+                            print('Bravo il coglione ' + wineWineTypeFromJson(dropdownvalue).name);
+
+                            databundle.updateWine(Wine(
+                                wineType: wineWineTypeFromJson(dropdownvalue.toUpperCase()),
+                                name: nameController.text,
+                                available: true,
+                                gradation: gradationController.text,
+                                grapes: grapesController.text,
+                                price: double.parse(priceController.text),
+                                producer: producerController.text,
+                                year: yearController.text,
+                                country: '',
+                                region: '',
+                                wineId: widget.wine.wineId!.toInt()
+                            ));
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  duration: Duration(seconds: 1),
+                                  backgroundColor: Colors.green,
+                                  content: Text('${nameController.text} modificato correttamente'),
+                                )
+                            );
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  duration: Duration(seconds: 2),
+                                  backgroundColor: Colors.red,
+                                  content: Text('Errore. ' + apiV1WinePut.error.toString()),
+                                )
+                            );
+                          }
+                        }
+
+                      },
+                      child: Text('Modifica Prodotto'),
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.lightGreen)),
+                    ),
                   )
                 ],
               ),

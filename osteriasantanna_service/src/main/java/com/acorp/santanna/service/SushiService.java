@@ -51,6 +51,12 @@ public class SushiService {
             if(updatingProduct.get().isAvailable() != sushi.isAvailable())
                 updatingProduct.get().setAvailable(sushi.isAvailable());
 
+            if(updatingProduct.get().isTakeAwayProduct() != sushi.isTakeAwayProduct())
+                updatingProduct.get().setTakeAwayProduct(sushi.isTakeAwayProduct());
+
+            if(updatingProduct.get().getTakeAwayPrice() != sushi.getTakeAwayPrice())
+                updatingProduct.get().setTakeAwayPrice(sushi.getTakeAwayPrice());
+
             updatingProduct.get().setCategory(sushi.getCategory());
 
         }

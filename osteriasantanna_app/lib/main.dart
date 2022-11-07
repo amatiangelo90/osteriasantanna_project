@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:osteriasantannamenu/reservation/reservation.dart';
 import 'package:osteriasantannamenu/screens/menu/home_screen.dart';
@@ -8,7 +9,13 @@ import 'databundle/databundleprovider.dart';
 
 void main() {
   setPathUrlStrategy();
-  runApp(const MyApp());
+  runApp(DevicePreview(
+    enabled: false,
+    tools: const [
+      ...DevicePreview.defaultTools,
+    ],
+    builder: (context) => MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

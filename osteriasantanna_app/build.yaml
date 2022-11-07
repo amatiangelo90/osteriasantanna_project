@@ -17,3 +17,4 @@ targets:
           build_only_models: false
           separate_models: true
           with_converter: true
+          override_equals_and_hashcode: true

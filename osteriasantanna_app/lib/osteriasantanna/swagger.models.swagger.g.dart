@@ -62,6 +62,8 @@ Sushi _$SushiFromJson(Map<String, dynamic> json) => Sushi(
       price: (json['price'] as num?)?.toDouble(),
       subCategory: json['subCategory'] as String?,
       sushiId: json['sushiId'] as num?,
+      takeAwayPrice: (json['takeAwayPrice'] as num?)?.toDouble(),
+      takeAwayProduct: json['takeAwayProduct'] as bool?,
     );
 
 Map<String, dynamic> _$SushiToJson(Sushi instance) => <String, dynamic>{
@@ -72,4 +74,6 @@ Map<String, dynamic> _$SushiToJson(Sushi instance) => <String, dynamic>{
       'price': instance.price,
       'subCategory': instance.subCategory,
       'sushiId': instance.sushiId,
+      'takeAwayPrice': instance.takeAwayPrice,
+      'takeAwayProduct': instance.takeAwayProduct,
     };
