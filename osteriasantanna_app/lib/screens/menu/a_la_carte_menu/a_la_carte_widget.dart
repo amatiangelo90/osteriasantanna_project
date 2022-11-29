@@ -1,4 +1,7 @@
 
+import 'dart:io';
+
+import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +10,7 @@ import '../../../osteriasantanna/swagger.enums.swagger.dart';
 import '../../../osteriasantanna/swagger.models.swagger.dart';
 import '../../../utils/costants.dart';
 import '../../components/anchor_tabs.dart';
+import '../../manager_area/create_screens/create_product_screen.dart';
 
 class ALaCarteWidget extends StatefulWidget {
   ALaCarteWidget({Key? key}) : super(key: key);
@@ -122,6 +126,12 @@ class _ALaCarteWidgetState extends State<ALaCarteWidget> {
                     Text('***', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.grey.shade700, fontFamily: 'Dance')),
 
                     dataBundle.manageraccess ? ElevatedButton(onPressed: () {
+
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CreateProductScreen(product: Product(
+                          category: productCategoryFromJson(currentList![i].name!)
+                        ),
+                        ),),);
                     },
                     child: Text('Crea ' + currentList![i].name![0].toUpperCase() + currentList![i].name!.substring(1).toLowerCase()),) : SizedBox(height: 0,)
                   ],
@@ -210,16 +220,53 @@ class _ALaCarteWidgetState extends State<ALaCarteWidget> {
                           ],
                         ),
                       ),
-                      dataBundle.manageraccess ? Row(
+                      dataBundle.manageraccess ? Column(
                         mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           IconButton(onPressed: (){
                             TextEditingController name = TextEditingController(text: currentList![i].name);
                             TextEditingController ingredients = TextEditingController(text: currentList![i].ingredients);
                             TextEditingController price = TextEditingController(text: currentList![i].price!.toStringAsFixed(2));
+                          }, icon: Icon(Icons.edit, color: Colors.blue,)),
+                          IconButton(onPressed: (){
+                            Widget cancelButton = ElevatedButton(
+                              child: Text("Elimina"),
+                              onPressed:  () async {
+                                Response apiV1ProductDeleteDelete
+                                = await dataBundle.getSwaggerClient().apiV1ProductDeleteDelete(productId: currentList![i].productId!.toInt());
+                                if(apiV1ProductDeleteDelete.isSuccessful){
+                                  dataBundle.removeProductById(currentList![i].productId!.toInt());
+                                  sleep(Duration(seconds: 1));
+                                  Navigator.of(context).pop();
+                                }else{
+                                  print('Errore: ' + apiV1ProductDeleteDelete.error.toString());
+                                }
+                              },
+                            );
+                            Widget continueButton = ElevatedButton(
+                              child: Text("Indietro"),
+                              onPressed:  () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                            // set up the AlertDialog
+                            AlertDialog alert = AlertDialog(
+                              title: Text("Eliminare " + currentList![i].name! + "?"),
 
-
-                          }, icon: Icon(Icons.edit, color: Colors.deepOrange,))
+                              actions: [
+                                cancelButton,
+                                continueButton,
+                              ],
+                            );
+                            // show the dialog
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return alert;
+                              },
+                            );
+                          }, icon: Icon(Icons.delete, color: Colors.redAccent,))
                         ],
                       ) : SizedBox(width: 0,)
                     ],

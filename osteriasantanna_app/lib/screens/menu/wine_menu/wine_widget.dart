@@ -80,14 +80,16 @@ class _WineWidgetState extends State<WineWidget> {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('da €' + dataBundle.minWinePrice.toStringAsFixed(0)
+          Text(dataBundle.wineList.isEmpty ? 'a € 0'
+              : 'a € ' + dataBundle.minWinePrice.toStringAsFixed(0)
               ,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.grey.shade700, fontFamily: 'Dance') ),
           SizedBox(
             width: 300,
             child: RangeSlider(
               inactiveColor: Colors.blueGrey,
               activeColor: OSTERIA_GOLD,
-              min: dataBundle.widgetMin,
+              min: dataBundle.wineList.isEmpty ? 0 : dataBundle.widgetMin,
+              max: dataBundle.widgetMax,
               onChangeEnd: (value){
                 dataBundle.refreshListWineByRangePrice(value);
               },
@@ -95,15 +97,16 @@ class _WineWidgetState extends State<WineWidget> {
                 dataBundle.refreshListWineByRangePrice(value);
               },
               labels: RangeLabels(dataBundle.minWinePrice.toStringAsFixed(0) + ' €', dataBundle.maxWinePrice.toStringAsFixed(0) + ' €'),
-              max: dataBundle.widgetMax,
+
               divisions: 1000,
-              values: RangeValues(dataBundle.minWinePrice, dataBundle.maxWinePrice),
+              values: RangeValues(dataBundle.wineList.isEmpty ? 0 : dataBundle.minWinePrice, dataBundle.maxWinePrice),
               onChanged: (RangeValues value) {
                 dataBundle.refreshListWineByRangePrice(value);
               },
             ),
           ),
-          Text('a € ' + dataBundle.maxWinePrice.toStringAsFixed(0),style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.grey.shade700, fontFamily: 'Dance') ),
+          Text(dataBundle.wineList.isEmpty ? 'a € 0'
+              : 'a € ' + dataBundle.maxWinePrice.toStringAsFixed(0),style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.grey.shade700, fontFamily: 'Dance') ),
         ],
       ),
     );

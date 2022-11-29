@@ -9,39 +9,32 @@ import '../../../osteriasantanna/swagger.enums.swagger.dart';
 import '../../../osteriasantanna/swagger.models.swagger.dart';
 import '../../../utils/utils.dart';
 
-class CreateWineScreen extends StatefulWidget {
-  const CreateWineScreen({Key? key, required this.wine}) : super(key: key);
+class CreateProductScreen extends StatefulWidget {
+  const CreateProductScreen({Key? key, required this.product}) : super(key: key);
 
-  final Wine wine;
+  final Product product;
 
   @override
-  State<CreateWineScreen> createState() => _CreateWineScreenState();
+  State<CreateProductScreen> createState() => _CreateProductScreenState();
 }
 
-class _CreateWineScreenState extends State<CreateWineScreen> {
+class _CreateProductScreenState extends State<CreateProductScreen> {
+
 
   late TextEditingController nameController;
-  late TextEditingController grapesController;
+  late TextEditingController ingredientsController;
   late TextEditingController priceController;
-  late TextEditingController yearController;
-  late TextEditingController gradationController;
-  late TextEditingController producerController;
-
 
   @override
   void initState() {
     nameController = TextEditingController();
-    grapesController = TextEditingController();
+    ingredientsController = TextEditingController();
     priceController = TextEditingController();
-    yearController = TextEditingController();
-    gradationController = TextEditingController();
-    producerController = TextEditingController();
-    dropdownvalue = wineWineTypeToJson(widget.wine.wineType)!;
-
+    dropdownvalue = productCategoryToJson(widget.product.category)!;
     super.initState();
   }
 
-  String dropdownvalue = 'BIANCO';
+  String dropdownvalue = 'ANTIPASTI';
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +63,8 @@ class _CreateWineScreenState extends State<CreateWineScreen> {
               child: Column(
 
                 children: [
-                  buildTextFieldInput(nameController,"Nome"),
-                  buildTextFieldInput(producerController,"Produttore"),
-                  buildTextFieldInput(gradationController,"Gradazione"),
-                  buildTextFieldInput(grapesController,"Uvaggio"),
-                  buildTextFieldInput(yearController, "Anno"),
+                  buildTextFieldInput(nameController, "Nome"),
+                  buildTextFieldInput(ingredientsController, "Ingredienti"),
                   buildTextFieldInput(priceController, "Prezzo"),
 
                   DropdownButtonHideUnderline(
@@ -95,10 +85,10 @@ class _CreateWineScreenState extends State<CreateWineScreen> {
                             child: Text(
                               'Select Item',
                               style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: OSTERIA_GOLD,
-                                fontFamily: 'Dance'
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: OSTERIA_GOLD,
+                                  fontFamily: 'Dance'
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -156,8 +146,6 @@ class _CreateWineScreenState extends State<CreateWineScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () async {
-                        print(' WineWineType.values[databundle.dropDownIndex].name --------->' +  dropdownvalue);
-
                         if(nameController.text == ''){
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -183,25 +171,21 @@ class _CreateWineScreenState extends State<CreateWineScreen> {
                               )
                           );
                         }else{
-                          Response apiV1WinePut = await databundle.getSwaggerClient().apiV1WineSavePost(
-                              wineType: dropdownvalue,
+                          Response apiProductSave = await databundle.getSwaggerClient().apiV1ProductSavePost(
+                              category: dropdownvalue,
                               name: nameController.text,
                               available: true,
-                              gradation: gradationController.text,
-                              grapes: grapesController.text,
                               price: double.parse(priceController.text.replaceAll(',', '.')),
-                              producer: producerController.text,
-                              year: yearController.text,
-                              country: '',
-                              region: '',
-                              wineId:0
+                              productId: 0,
+                              ingredients: ingredientsController.text,
+                              subCategory: ''
                           );
 
-                          if(apiV1WinePut.isSuccessful){
+                          if(apiProductSave.isSuccessful){
 
-                            Response<List<Wine>> apiV1WineFindallGet = await databundle.getSwaggerClient().apiV1WineFindallGet();
-                            if(apiV1WineFindallGet.isSuccessful){
-                              databundle.setWineList(apiV1WineFindallGet.body);
+                            Response<List<Product>> apiProd = await databundle.getSwaggerClient().apiV1ProductFindallGet();
+                            if(apiProd.isSuccessful){
+                              databundle.setProdList(apiProd.body);
                             }
                             Navigator.of(context).pop();
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -216,7 +200,7 @@ class _CreateWineScreenState extends State<CreateWineScreen> {
                                 SnackBar(
                                   duration: Duration(seconds: 2),
                                   backgroundColor: Colors.red,
-                                  content: Text('Errore. ' + apiV1WinePut.error.toString()),
+                                  content: Text('Errore. ' + apiProductSave.error.toString()),
                                 )
                             );
                           }
@@ -258,9 +242,9 @@ class _CreateWineScreenState extends State<CreateWineScreen> {
 
   List<String> createList() {
     List<String> list = [];
-    WineWineType.values.forEach((element) {
+    ProductCategory.values.forEach((element) {
       if(element != 'swaggerGeneratedUnknown' && element != 'null'){
-        list.add(wineWineTypeToJson(
+        list.add(productCategoryToJson(
             element
         ).toString());
       }

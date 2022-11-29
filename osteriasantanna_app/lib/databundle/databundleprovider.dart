@@ -25,12 +25,10 @@ class DataBundleNotifier extends ChangeNotifier{
   Map<String, Map<String, String>> translationMap = {};
   GoogleTranslator translator = GoogleTranslator();
 
-  bool isRefreshable = false;
+  bool isRefreshable = true;
 
   void changemenutype(){
     if(currentMenu == Menutype.A_LA_CARTE){
-      currentMenu = Menutype.SUSHI;
-    }else if(currentMenu == Menutype.SUSHI){
       currentMenu = Menutype.WINE;
     }else{
       currentMenu = Menutype.A_LA_CARTE;
@@ -39,7 +37,8 @@ class DataBundleNotifier extends ChangeNotifier{
   }
 
   String baseUrlHttps = 'https://servicedbacorp741w.com:8444/santannaservice';
-  String baseUrlHttp = 'http://servicedbacorp741w.com:8080/santannaservice';
+  //String baseUrlHttp = 'http://servicedbacorp741w.com:8080/santannaservice';
+  String baseUrlHttp = 'http://localhost:16172/santannaservice';
 
   Swagger getSwaggerClient(){
     if(kIsWeb){
@@ -51,7 +50,6 @@ class DataBundleNotifier extends ChangeNotifier{
           baseUrl: baseUrlHttp
       );
     }
-
   }
 
   String retrieveImageFromLanguage() {

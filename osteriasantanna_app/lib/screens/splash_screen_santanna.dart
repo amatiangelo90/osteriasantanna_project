@@ -66,6 +66,7 @@ class _SplashScreenSantAnnaState extends State<SplashScreenSantAnna> {
                         if(apiV1SushiFindallGet.isSuccessful){
                           bundleNotifier.setSushiList(apiV1SushiFindallGet.body);
                         }
+
                         Navigator.pushNamed(context, HomeScreen.id);
                       }catch(e){
                         print(e);

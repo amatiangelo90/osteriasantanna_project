@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:osteriasantannamenu/screens/menu/sushi_menu/sushi_widget.dart';
 import 'package:osteriasantannamenu/screens/menu/wine_menu/wine_widget.dart';
 import 'package:translator/translator.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
-import '../../reservation/reservation.dart';
-import '../../utils/costants.dart';
 import '../../utils/menu_type.dart';
 import '../../databundle/databundleprovider.dart';
 import '../components/pinput_widget.dart';
@@ -89,14 +85,23 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.transparent,
               elevation: 0.0,
               title: Text(dataBundle.currentMenu == Menutype.A_LA_CARTE ?
-              'A la carté'
-                  : dataBundle.currentMenu == Menutype.SUSHI ?  'Sushi & Suscie' : 'Carta Vini',
+              'A la carté' : 'Carta Vini',
                 style: TextStyle(fontSize: 24.0,
                     color: Colors.grey.shade700, fontFamily: 'Dance', fontWeight: FontWeight.w700),
               ),
               centerTitle: true,
               actions: [
-                Padding(
+
+                dataBundle.manageraccess ? Padding(
+                  padding: const EdgeInsets.only(bottom: 2, top: 2, right: 4),
+                  child: FloatingActionButton(
+                    heroTag: "btn2",
+                    onPressed: () {
+                    },
+                    backgroundColor: Colors.white,
+                    child: SvgPicture.asset('images/calendar.svg', fit: BoxFit.scaleDown),
+                  ),
+                ) : Padding(
                   padding: const EdgeInsets.only(bottom: 2, top: 2, right: 4),
                   child: FloatingActionButton(
                     heroTag: "btn2",
@@ -209,15 +214,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       dataBundle.changemenutype();
                     },
                     backgroundColor: Colors.white,
-                    child: SvgPicture.asset(dataBundle.currentMenu == Menutype.A_LA_CARTE ?
-                    'images/sushiicon.svg'
-                        : dataBundle.currentMenu == Menutype.SUSHI ? 'images/wine-food-svgrepo-com.svg' : 'images/bookrest.svg'),
+                    child: SvgPicture.asset(dataBundle.currentMenu == Menutype.A_LA_CARTE ? 'images/wine-food-svgrepo-com.svg' : 'images/bookrest.svg'),
                   ),
                 ),
               ],
             ),
             body: dataBundle.currentMenu == Menutype.A_LA_CARTE ?
-            ALaCarteWidget() : dataBundle.currentMenu == Menutype.SUSHI ? SushiWidget() : WineWidget(),
+            ALaCarteWidget() : WineWidget(),
         );
       },
     );
