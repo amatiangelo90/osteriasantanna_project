@@ -259,7 +259,6 @@ class DataBundleNotifier extends ChangeNotifier{
   }
 
   void updateWine(Wine wine) {
-
     for(int i = 0; i < wineList.length; i++){
       if(wineList[i].wineId == wine.wineId){
         print('replacing wine in position : ' + i.toString());
@@ -283,5 +282,11 @@ class DataBundleNotifier extends ChangeNotifier{
     }
     notifyListeners();
 
+  }
+
+  bool dataRetrieved = false;
+  void dataRetrievedMethod(bool bool) {
+    dataRetrieved = bool;
+    notifyListeners();
   }
 }

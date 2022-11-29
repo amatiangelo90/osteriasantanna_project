@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:osteriasantannamenu/reservation/reservation.dart';
+import 'package:osteriasantannamenu/screens/manager_area/calendar/calendar_manager.dart';
 import 'package:osteriasantannamenu/screens/menu/home_screen.dart';
 import 'package:osteriasantannamenu/screens/splash_screen_santanna.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,7 @@ import 'package:url_strategy/url_strategy.dart';
 import 'databundle/databundleprovider.dart';
 
 void main() {
-  setPathUrlStrategy();
+  //setPathUrlStrategy();
   runApp(DevicePreview(
     enabled: false,
     tools: const [
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
             SplashScreenSantAnna.id : (context) => SplashScreenSantAnna(),
             HomeScreen.id : (context) => HomeScreen(),
             ReservationScreen.id : (context) => ReservationScreen(),
+            CalendarManager.id : (context) => CalendarManager(),
           }
       ),
     );

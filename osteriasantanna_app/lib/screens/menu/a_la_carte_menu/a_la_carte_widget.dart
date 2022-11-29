@@ -115,7 +115,8 @@ class _ALaCarteWidgetState extends State<ALaCarteWidget> {
                           if (snapshot.hasError) {
                             return const Text('Error');
                           } else if (snapshot.hasData) {
-                            return Text(snapshot.data![0].toUpperCase() + snapshot.data!.substring(1).toLowerCase(), textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 28, color: Colors.grey.shade700, fontFamily: 'Dance'));
+                            return Text(snapshot.data![0].toUpperCase() + snapshot.data!.substring(1).toLowerCase(), textAlign: TextAlign.center
+                                , style: TextStyle(fontWeight: FontWeight.w700, fontSize: 28, color: Colors.grey.shade700, fontFamily: 'Dance'));
                           } else {
                             return const Text('Empty data');
                           }
