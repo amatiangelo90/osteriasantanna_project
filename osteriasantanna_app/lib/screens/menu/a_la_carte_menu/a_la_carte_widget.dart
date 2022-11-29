@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
+import 'package:osteriasantannamenu/screens/manager_area/edit_screens/edit_product_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../databundle/databundleprovider.dart';
@@ -225,9 +226,10 @@ class _ALaCarteWidgetState extends State<ALaCarteWidget> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           IconButton(onPressed: (){
-                            TextEditingController name = TextEditingController(text: currentList![i].name);
-                            TextEditingController ingredients = TextEditingController(text: currentList![i].ingredients);
-                            TextEditingController price = TextEditingController(text: currentList![i].price!.toStringAsFixed(2));
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => EditProductScreen(product: currentList![i]),
+                              ),);
+
                           }, icon: Icon(Icons.edit, color: Colors.blue,)),
                           IconButton(onPressed: (){
                             Widget cancelButton = ElevatedButton(

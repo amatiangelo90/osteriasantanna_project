@@ -270,4 +270,18 @@ class DataBundleNotifier extends ChangeNotifier{
     notifyListeners();
 
   }
+
+
+  void updateProduct(Product product) {
+
+    for(int i = 0; i < prodList.length; i++){
+      if(prodList[i].productId == product.productId){
+        print('replacing product in position : ' + i.toString());
+        prodList[i] = product;
+        break;
+      }
+    }
+    notifyListeners();
+
+  }
 }

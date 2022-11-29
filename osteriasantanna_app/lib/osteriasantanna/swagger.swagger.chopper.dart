@@ -86,7 +86,7 @@ class _$Swagger extends Swagger {
   }
 
   @override
-  Future<Response<dynamic>> _apiV1ProductUpdatePut({
+  Future<Response<Product>> _apiV1ProductUpdatePut({
     int? productId,
     String? name,
     String? ingredients,
@@ -111,7 +111,7 @@ class _$Swagger extends Swagger {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<Product, Product>($request);
   }
 
   @override

@@ -149,7 +149,7 @@ abstract class Swagger extends ChopperService {
   ///@param subCategory
   ///@param price
   ///@param available
-  Future<chopper.Response> apiV1ProductUpdatePut({
+  Future<chopper.Response<Product>> apiV1ProductUpdatePut({
     int? productId,
     String? name,
     String? ingredients,
@@ -158,6 +158,8 @@ abstract class Swagger extends ChopperService {
     num? price,
     bool? available,
   }) {
+    generatedMapping.putIfAbsent(Product, () => Product.fromJsonFactory);
+
     return _apiV1ProductUpdatePut(
         productId: productId,
         name: name,
@@ -180,7 +182,7 @@ abstract class Swagger extends ChopperService {
     path: '/api/v1/product/update',
     optionalBody: true,
   )
-  Future<chopper.Response> _apiV1ProductUpdatePut({
+  Future<chopper.Response<Product>> _apiV1ProductUpdatePut({
     @Query('productId') int? productId,
     @Query('name') String? name,
     @Query('ingredients') String? ingredients,
