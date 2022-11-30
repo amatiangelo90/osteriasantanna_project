@@ -162,6 +162,93 @@ extension $WineExtension on Wine {
 }
 
 @JsonSerializable(explicitToJson: true)
+class CalendarConfiguration {
+  CalendarConfiguration({
+    this.calendarConfId,
+    this.date,
+    this.dinner,
+    this.launch,
+  });
+
+  factory CalendarConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$CalendarConfigurationFromJson(json);
+
+  @JsonKey(name: 'calendarConfId')
+  final num? calendarConfId;
+  @JsonKey(name: 'date')
+  final String? date;
+  @JsonKey(
+    name: 'dinner',
+    toJson: calendarConfigurationDinnerToJson,
+    fromJson: calendarConfigurationDinnerFromJson,
+  )
+  final enums.CalendarConfigurationDinner? dinner;
+  @JsonKey(
+    name: 'launch',
+    toJson: calendarConfigurationLaunchToJson,
+    fromJson: calendarConfigurationLaunchFromJson,
+  )
+  final enums.CalendarConfigurationLaunch? launch;
+  static const fromJsonFactory = _$CalendarConfigurationFromJson;
+  static const toJsonFactory = _$CalendarConfigurationToJson;
+  Map<String, dynamic> toJson() => _$CalendarConfigurationToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CalendarConfiguration &&
+            (identical(other.calendarConfId, calendarConfId) ||
+                const DeepCollectionEquality()
+                    .equals(other.calendarConfId, calendarConfId)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)) &&
+            (identical(other.dinner, dinner) ||
+                const DeepCollectionEquality().equals(other.dinner, dinner)) &&
+            (identical(other.launch, launch) ||
+                const DeepCollectionEquality().equals(other.launch, launch)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(calendarConfId) ^
+      const DeepCollectionEquality().hash(date) ^
+      const DeepCollectionEquality().hash(dinner) ^
+      const DeepCollectionEquality().hash(launch) ^
+      runtimeType.hashCode;
+}
+
+extension $CalendarConfigurationExtension on CalendarConfiguration {
+  CalendarConfiguration copyWith(
+      {num? calendarConfId,
+      String? date,
+      enums.CalendarConfigurationDinner? dinner,
+      enums.CalendarConfigurationLaunch? launch}) {
+    return CalendarConfiguration(
+        calendarConfId: calendarConfId ?? this.calendarConfId,
+        date: date ?? this.date,
+        dinner: dinner ?? this.dinner,
+        launch: launch ?? this.launch);
+  }
+
+  CalendarConfiguration copyWithWrapped(
+      {Wrapped<num?>? calendarConfId,
+      Wrapped<String?>? date,
+      Wrapped<enums.CalendarConfigurationDinner?>? dinner,
+      Wrapped<enums.CalendarConfigurationLaunch?>? launch}) {
+    return CalendarConfiguration(
+        calendarConfId: (calendarConfId != null
+            ? calendarConfId.value
+            : this.calendarConfId),
+        date: (date != null ? date.value : this.date),
+        dinner: (dinner != null ? dinner.value : this.dinner),
+        launch: (launch != null ? launch.value : this.launch));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class Product {
   Product({
     this.available,
@@ -476,6 +563,144 @@ List<enums.WineWineType>? wineWineTypeNullableListFromJson(
   }
 
   return wineWineType.map((e) => wineWineTypeFromJson(e.toString())).toList();
+}
+
+String? calendarConfigurationDinnerToJson(
+    enums.CalendarConfigurationDinner? calendarConfigurationDinner) {
+  return enums.$CalendarConfigurationDinnerMap[calendarConfigurationDinner];
+}
+
+enums.CalendarConfigurationDinner calendarConfigurationDinnerFromJson(
+  Object? calendarConfigurationDinner, [
+  enums.CalendarConfigurationDinner? defaultValue,
+]) {
+  if (calendarConfigurationDinner is String) {
+    return enums.$CalendarConfigurationDinnerMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                calendarConfigurationDinner.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.CalendarConfigurationDinner.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  final parsedResult = defaultValue == null
+      ? null
+      : enums.$CalendarConfigurationDinnerMap.entries
+          .firstWhereOrNull((element) => element.value == defaultValue)
+          ?.key;
+
+  return parsedResult ??
+      defaultValue ??
+      enums.CalendarConfigurationDinner.swaggerGeneratedUnknown;
+}
+
+List<String> calendarConfigurationDinnerListToJson(
+    List<enums.CalendarConfigurationDinner>? calendarConfigurationDinner) {
+  if (calendarConfigurationDinner == null) {
+    return [];
+  }
+
+  return calendarConfigurationDinner
+      .map((e) => enums.$CalendarConfigurationDinnerMap[e]!)
+      .toList();
+}
+
+List<enums.CalendarConfigurationDinner> calendarConfigurationDinnerListFromJson(
+  List? calendarConfigurationDinner, [
+  List<enums.CalendarConfigurationDinner>? defaultValue,
+]) {
+  if (calendarConfigurationDinner == null) {
+    return defaultValue ?? [];
+  }
+
+  return calendarConfigurationDinner
+      .map((e) => calendarConfigurationDinnerFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.CalendarConfigurationDinner>?
+    calendarConfigurationDinnerNullableListFromJson(
+  List? calendarConfigurationDinner, [
+  List<enums.CalendarConfigurationDinner>? defaultValue,
+]) {
+  if (calendarConfigurationDinner == null) {
+    return defaultValue;
+  }
+
+  return calendarConfigurationDinner
+      .map((e) => calendarConfigurationDinnerFromJson(e.toString()))
+      .toList();
+}
+
+String? calendarConfigurationLaunchToJson(
+    enums.CalendarConfigurationLaunch? calendarConfigurationLaunch) {
+  return enums.$CalendarConfigurationLaunchMap[calendarConfigurationLaunch];
+}
+
+enums.CalendarConfigurationLaunch calendarConfigurationLaunchFromJson(
+  Object? calendarConfigurationLaunch, [
+  enums.CalendarConfigurationLaunch? defaultValue,
+]) {
+  if (calendarConfigurationLaunch is String) {
+    return enums.$CalendarConfigurationLaunchMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                calendarConfigurationLaunch.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.CalendarConfigurationLaunch.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  final parsedResult = defaultValue == null
+      ? null
+      : enums.$CalendarConfigurationLaunchMap.entries
+          .firstWhereOrNull((element) => element.value == defaultValue)
+          ?.key;
+
+  return parsedResult ??
+      defaultValue ??
+      enums.CalendarConfigurationLaunch.swaggerGeneratedUnknown;
+}
+
+List<String> calendarConfigurationLaunchListToJson(
+    List<enums.CalendarConfigurationLaunch>? calendarConfigurationLaunch) {
+  if (calendarConfigurationLaunch == null) {
+    return [];
+  }
+
+  return calendarConfigurationLaunch
+      .map((e) => enums.$CalendarConfigurationLaunchMap[e]!)
+      .toList();
+}
+
+List<enums.CalendarConfigurationLaunch> calendarConfigurationLaunchListFromJson(
+  List? calendarConfigurationLaunch, [
+  List<enums.CalendarConfigurationLaunch>? defaultValue,
+]) {
+  if (calendarConfigurationLaunch == null) {
+    return defaultValue ?? [];
+  }
+
+  return calendarConfigurationLaunch
+      .map((e) => calendarConfigurationLaunchFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.CalendarConfigurationLaunch>?
+    calendarConfigurationLaunchNullableListFromJson(
+  List? calendarConfigurationLaunch, [
+  List<enums.CalendarConfigurationLaunch>? defaultValue,
+]) {
+  if (calendarConfigurationLaunch == null) {
+    return defaultValue;
+  }
+
+  return calendarConfigurationLaunch
+      .map((e) => calendarConfigurationLaunchFromJson(e.toString()))
+      .toList();
 }
 
 String? productCategoryToJson(enums.ProductCategory? productCategory) {

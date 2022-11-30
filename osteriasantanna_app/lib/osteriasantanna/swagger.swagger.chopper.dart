@@ -17,6 +17,92 @@ class _$Swagger extends Swagger {
   final definitionType = Swagger;
 
   @override
+  Future<Response<dynamic>> _apiV1CalendarconfDeleteDelete({
+    int? calendarConfId,
+    String? date,
+    String? launch,
+    String? dinner,
+  }) {
+    final String $url = '/api/v1/calendarconf/delete';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'calendarConfId': calendarConfId,
+      'date': date,
+      'launch': launch,
+      'dinner': dinner,
+    };
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<List<CalendarConfiguration>>> _apiV1CalendarconfFindallGet(
+      {required String? fromDate}) {
+    final String $url = '/api/v1/calendarconf/findall';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'fromDate': fromDate
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client
+        .send<List<CalendarConfiguration>, CalendarConfiguration>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _apiV1CalendarconfSavePost({
+    int? calendarConfId,
+    String? date,
+    String? launch,
+    String? dinner,
+  }) {
+    final String $url = '/api/v1/calendarconf/save';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'calendarConfId': calendarConfId,
+      'date': date,
+      'launch': launch,
+      'dinner': dinner,
+    };
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<CalendarConfiguration>> _apiV1CalendarconfUpdatePut({
+    int? calendarConfId,
+    String? date,
+    String? launch,
+    String? dinner,
+  }) {
+    final String $url = '/api/v1/calendarconf/update';
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'calendarConfId': calendarConfId,
+      'date': date,
+      'launch': launch,
+      'dinner': dinner,
+    };
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<CalendarConfiguration, CalendarConfiguration>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _apiV1ProductDeleteDelete({
     int? productId,
     String? name,

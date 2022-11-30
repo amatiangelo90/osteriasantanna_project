@@ -34,6 +34,24 @@ Map<String, dynamic> _$WineToJson(Wine instance) => <String, dynamic>{
       'year': instance.year,
     };
 
+CalendarConfiguration _$CalendarConfigurationFromJson(
+        Map<String, dynamic> json) =>
+    CalendarConfiguration(
+      calendarConfId: json['calendarConfId'] as num?,
+      date: json['date'] as String?,
+      dinner: calendarConfigurationDinnerFromJson(json['dinner']),
+      launch: calendarConfigurationLaunchFromJson(json['launch']),
+    );
+
+Map<String, dynamic> _$CalendarConfigurationToJson(
+        CalendarConfiguration instance) =>
+    <String, dynamic>{
+      'calendarConfId': instance.calendarConfId,
+      'date': instance.date,
+      'dinner': calendarConfigurationDinnerToJson(instance.dinner),
+      'launch': calendarConfigurationLaunchToJson(instance.launch),
+    };
+
 Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       available: json['available'] as bool?,
       category: productCategoryFromJson(json['category']),

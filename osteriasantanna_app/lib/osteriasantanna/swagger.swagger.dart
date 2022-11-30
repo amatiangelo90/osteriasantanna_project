@@ -36,6 +36,125 @@ abstract class Swagger extends ChopperService {
   }
 
   ///delete
+  ///@param calendarConfId
+  ///@param date
+  ///@param launch
+  ///@param dinner
+  Future<chopper.Response> apiV1CalendarconfDeleteDelete({
+    int? calendarConfId,
+    String? date,
+    String? launch,
+    String? dinner,
+  }) {
+    return _apiV1CalendarconfDeleteDelete(
+        calendarConfId: calendarConfId,
+        date: date,
+        launch: launch,
+        dinner: dinner);
+  }
+
+  ///delete
+  ///@param calendarConfId
+  ///@param date
+  ///@param launch
+  ///@param dinner
+  @Delete(path: '/api/v1/calendarconf/delete')
+  Future<chopper.Response> _apiV1CalendarconfDeleteDelete({
+    @Query('calendarConfId') int? calendarConfId,
+    @Query('date') String? date,
+    @Query('launch') String? launch,
+    @Query('dinner') String? dinner,
+  });
+
+  ///retrieveAll
+  ///@param fromDate fromDate
+  Future<chopper.Response<List<CalendarConfiguration>>>
+      apiV1CalendarconfFindallGet({required String? fromDate}) {
+    generatedMapping.putIfAbsent(
+        CalendarConfiguration, () => CalendarConfiguration.fromJsonFactory);
+
+    return _apiV1CalendarconfFindallGet(fromDate: fromDate);
+  }
+
+  ///retrieveAll
+  ///@param fromDate fromDate
+  @Get(path: '/api/v1/calendarconf/findall')
+  Future<chopper.Response<List<CalendarConfiguration>>>
+      _apiV1CalendarconfFindallGet(
+          {@Query('fromDate') required String? fromDate});
+
+  ///save
+  ///@param calendarConfId
+  ///@param date
+  ///@param launch
+  ///@param dinner
+  Future<chopper.Response> apiV1CalendarconfSavePost({
+    int? calendarConfId,
+    String? date,
+    String? launch,
+    String? dinner,
+  }) {
+    return _apiV1CalendarconfSavePost(
+        calendarConfId: calendarConfId,
+        date: date,
+        launch: launch,
+        dinner: dinner);
+  }
+
+  ///save
+  ///@param calendarConfId
+  ///@param date
+  ///@param launch
+  ///@param dinner
+  @Post(
+    path: '/api/v1/calendarconf/save',
+    optionalBody: true,
+  )
+  Future<chopper.Response> _apiV1CalendarconfSavePost({
+    @Query('calendarConfId') int? calendarConfId,
+    @Query('date') String? date,
+    @Query('launch') String? launch,
+    @Query('dinner') String? dinner,
+  });
+
+  ///update
+  ///@param calendarConfId
+  ///@param date
+  ///@param launch
+  ///@param dinner
+  Future<chopper.Response<CalendarConfiguration>> apiV1CalendarconfUpdatePut({
+    int? calendarConfId,
+    String? date,
+    String? launch,
+    String? dinner,
+  }) {
+    generatedMapping.putIfAbsent(
+        CalendarConfiguration, () => CalendarConfiguration.fromJsonFactory);
+
+    return _apiV1CalendarconfUpdatePut(
+        calendarConfId: calendarConfId,
+        date: date,
+        launch: launch,
+        dinner: dinner);
+  }
+
+  ///update
+  ///@param calendarConfId
+  ///@param date
+  ///@param launch
+  ///@param dinner
+  @Put(
+    path: '/api/v1/calendarconf/update',
+    optionalBody: true,
+  )
+  Future<chopper.Response<CalendarConfiguration>> _apiV1CalendarconfUpdatePut({
+    @Query('calendarConfId') int? calendarConfId,
+    @Query('date') String? date,
+    @Query('launch') String? launch,
+    @Query('dinner') String? dinner,
+  });
+
+  ///delete
   ///@param productId
   ///@param name
   ///@param ingredients

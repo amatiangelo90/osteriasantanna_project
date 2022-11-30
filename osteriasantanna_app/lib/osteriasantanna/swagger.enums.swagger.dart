@@ -23,6 +23,34 @@ const $WineWineTypeMap = {
   WineWineType.champagne: 'CHAMPAGNE'
 };
 
+enum CalendarConfigurationDinner {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSE')
+  close
+}
+
+const $CalendarConfigurationDinnerMap = {
+  CalendarConfigurationDinner.open: 'OPEN',
+  CalendarConfigurationDinner.close: 'CLOSE'
+};
+
+enum CalendarConfigurationLaunch {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSE')
+  close
+}
+
+const $CalendarConfigurationLaunchMap = {
+  CalendarConfigurationLaunch.open: 'OPEN',
+  CalendarConfigurationLaunch.close: 'CLOSE'
+};
+
 enum ProductCategory {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
