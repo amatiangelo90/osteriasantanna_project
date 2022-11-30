@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "Wine")
 @Table(name = "WINE",
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Builder
-public class Wine {
+public class Wine implements Serializable {
     @Id
     @SequenceGenerator(
             name = "wine_id",

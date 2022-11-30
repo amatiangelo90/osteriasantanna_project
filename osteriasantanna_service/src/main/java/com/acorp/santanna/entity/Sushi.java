@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "Sushi")
 @Table(name = "SUSHI",
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Builder
-public class Sushi {
+public class Sushi implements Serializable {
     @Id
     @SequenceGenerator(
             name = "sushi_id",

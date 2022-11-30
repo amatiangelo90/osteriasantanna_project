@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/material/slider_theme.dart';
+import 'package:osteriasantannamenu/utils/costants.dart';
 import 'package:translator/translator.dart';
 import '../osteriasantanna/swagger.swagger.dart';
 import '../utils/menu_type.dart';
@@ -289,4 +291,186 @@ class DataBundleNotifier extends ChangeNotifier{
     dataRetrieved = bool;
     notifyListeners();
   }
+
+  bool calendarDataRetrieved = false;
+  void calendarDataRetrievedMethod(bool bool) {
+    calendarDataRetrieved = bool;
+    notifyListeners();
+  }
+
+  List<CalendarConfiguration> calendarConfList = [];
+  void setCalendarConfList(List<CalendarConfiguration> list) {
+
+    print(list.toString());
+    calendarConfList.clear();
+    calendarConfList.addAll(list);
+    fillCalendarWithemptyDateConfiguration(buildAlreadyConfiguredDate());
+    calendarDataRetrievedMethod(true);
+    notifyListeners();
+  }
+
+  void fillCalendarWithemptyDateConfiguration(List<String> buildAlreadyConfiguredDate) {
+    List<String> buildDates = buildDatesList(buildAlreadyConfiguredDate);
+    buildDates.forEach((element) {
+      calendarConfList.add(CalendarConfiguration(
+        calendarConfId: 0,
+        date: element,
+        dinner: CalendarConfigurationDinner.close,
+        launch: CalendarConfigurationLaunch.close
+      ));
+    });
+    notifyListeners();
+  }
+
+
+  List<String> buildAlreadyConfiguredDate() {
+    List<String> dates = [];
+    calendarConfList.forEach((element) {
+      dates.add(element.date!);
+    });
+    return dates;
+  }
+
+  List<String> buildDatesList(List<String> alreadyConfiguredDates) {
+    List<String> calendarConfList = [];
+    for(int i = 0; i < 50; i++){
+      if(!alreadyConfiguredDates.contains(dateFormat.format(DateTime.now().add(Duration(days: i))))){
+        calendarConfList.add(dateFormat.format(DateTime.now().add(Duration(days: i))));
+      }
+    }
+    return calendarConfList;
+  }
+
+
+  void updateCalendar(CalendarConfiguration calendarConfiguration) {
+
+    calendarConfList.removeWhere((element) => element.calendarConfId == calendarConfiguration.calendarConfId);
+    calendarConfList.add(calendarConfiguration);
+    notifyListeners();
+  }
+
+  List<DateTime> getActiveDates() {
+    List<DateTime> list = [];
+    calendarConfList.forEach((cal) {
+      if(cal.dinner == CalendarConfigurationDinner.close && cal.launch == CalendarConfigurationLaunch.close){
+
+      }else{
+        list.add(dateFormat.parse(cal.date!));
+      }
+
+    });
+
+    return list;
+  }
+
+  List<DropdownMenuItem> currentHoursList = [];
+
+  setCurrentHoursList(DateTime time){
+
+    calendarConfList.forEach((cal) {
+      if(cal.date == dateFormat.format(time)){
+        if(cal.dinner == CalendarConfigurationDinner.close && cal.launch == CalendarConfigurationLaunch.close){
+          currentHoursList.clear();
+        }else if(cal.dinner == CalendarConfigurationDinner.open && cal.launch == CalendarConfigurationLaunch.close){
+          currentHoursList.clear();
+          currentHoursList.addAll(listHoursDinner);
+        }else if(cal.dinner == CalendarConfigurationDinner.close && cal.launch == CalendarConfigurationLaunch.open){
+          currentHoursList.clear();
+          currentHoursList.addAll(listHoursLunch);
+        }else if(cal.dinner == CalendarConfigurationDinner.open && cal.launch == CalendarConfigurationLaunch.open){
+          currentHoursList.clear();
+          currentHoursList.addAll(listHours);
+        }
+      }
+    });
+    notifyListeners();
+  }
+
+
+  List<DropdownMenuItem> listHours = [
+    const DropdownMenuItem(
+      child: Center(child: Text("12:30")),
+      value: 1,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("13:00")),
+      value: 2,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("13:30")),
+      value: 3,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("14:00")),
+      value: 4,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("20:00")),
+      value: 5,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("20:30")),
+      value: 6,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("21:00")),
+      value: 7,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("21:30")),
+      value: 8,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("22:00")),
+      value: 9,
+    ),
+  ];
+
+  List<DropdownMenuItem> listHoursLunch = [
+    const DropdownMenuItem(
+      child: Center(child: Text("12:30")),
+      value: 1,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("13:00")),
+      value: 2,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("13:30")),
+      value: 3,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("14:00")),
+      value: 4,
+    ),
+  ];
+
+
+  List<DropdownMenuItem> listHoursDinner = [
+    const DropdownMenuItem(
+      child: Center(child: Text("20:00")),
+      value: 1,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("20:30")),
+      value: 2,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("21:00")),
+      value: 3,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("21:30")),
+      value: 4,
+    ),
+    const DropdownMenuItem(
+      child: Center(child: Text("22:00")),
+      value: 5,
+    ),
+  ];
+
+
+
+
+
 }

@@ -29,10 +29,11 @@ public class ProductService {
     }
 
     @Transactional
-    public void update(Product product) {
+    public Product update(Product product) {
         Optional<Product> updatingProduct = productRepository.findById(product.getProductId());
 
         if(!updatingProduct.isPresent()){
+
             throw new IllegalStateException("Errore. Non ho trovato prodotti da aggiornare");
 
         }else{
@@ -50,6 +51,8 @@ public class ProductService {
                 updatingProduct.get().setAvailable(product.isAvailable());
 
             updatingProduct.get().setCategory(product.getCategory());
+
+            return updatingProduct.get();
         }
     }
 }

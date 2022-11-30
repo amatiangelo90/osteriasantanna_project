@@ -2,12 +2,14 @@ import 'dart:async';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:osteriasantannamenu/screens/menu/wine_menu/wine_widget.dart';
 import 'package:osteriasantannamenu/utils/costants.dart';
 import 'package:translator/translator.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../osteriasantanna/swagger.models.swagger.dart';
+import '../../osteriasantanna/swagger.swagger.dart';
 import '../../reservation/reservation.dart';
 import '../../utils/menu_type.dart';
 import '../../databundle/databundleprovider.dart';
@@ -102,8 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 22,),
                   ListTile(
-                    onTap: (){
-                      launchUrl(Uri(path: 'https://osteriasantanna.it/'));
+                    onTap: () async {
+                      await launch('https://osteriasantanna.it/');
                     },
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,185 +145,202 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           appBar: AppBar(
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('images/santannapattern.png'),
-                        fit: BoxFit.fitWidth
-                    )
-                ),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('images/santannapattern.png'),
+                      fit: BoxFit.fitWidth
+                  )
               ),
-              iconTheme: IconThemeData(color: Colors.black),
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-              title: Text(dataBundle.currentMenu == Menutype.A_LA_CARTE ?
-              'A la carté' : 'Carta Vini',
-                style: TextStyle(fontSize: 24.0,
-                    color: Colors.grey.shade700, fontFamily: 'Dance', fontWeight: FontWeight.w700),
-              ),
-              centerTitle: true,
-              actions: [
-
-                dataBundle.manageraccess ? Padding(
-                  padding: const EdgeInsets.only(bottom: 2, top: 2, right: 4),
-                  child: FloatingActionButton(
-                    heroTag: "btn2",
-                    onPressed: () {
-                      Navigator.pushNamed(context, CalendarManager.id);
-                    },
-                    backgroundColor: Colors.white,
-                    child: SvgPicture.asset('images/calendar.svg', fit: BoxFit.scaleDown),
-                  ),
-                ) : Padding(
-                  padding: const EdgeInsets.only(bottom: 2, top: 2, right: 4),
-                  child: FloatingActionButton(
-                    heroTag: "btn2",
-                    onPressed: () {
-                      showModalBottomSheet(context: context,
-                          shape:RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
-                            ),
-                          ),
-                          builder: (context){
-                            return Container(
-                              height: 420.0,
-                              color: Colors.transparent,
-                              child: Column(
-                                children: [
-                                  Text('', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15)),
-                                  ListTile(
-                                    onTap: () async {
-                                      dataBundle.setCurrentLanguage('it');
-                                      Navigator.pushNamed(context, HomeScreen.id);
-                                    },
-                                    title: Row(
-                                      children: [
-                                        SvgPicture.asset('images/italy_flag.svg', width: 30),
-                                        Padding(
-                                          padding: const EdgeInsets.all(18.0),
-                                          child: Text('Italiano', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () async {
-                                      dataBundle.setCurrentLanguage('en');
-                                      Navigator.pushNamed(context, HomeScreen.id);
-
-                                    },
-                                    title: Row(
-                                      children: [
-                                        SvgPicture.asset('images/england_flag.svg', width: 30),
-                                        Padding(
-                                          padding: const EdgeInsets.all(18.0),
-                                          child: Text('English', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () async {
-                                      dataBundle.setCurrentLanguage('fr');
-                                      Navigator.pushNamed(context, HomeScreen.id);
-                                    },
-                                    title: Row(
-                                      children: [
-                                        SvgPicture.asset('images/france_flag.svg', width: 30),
-                                        Padding(
-                                          padding: const EdgeInsets.all(18.0),
-                                          child: Text('Francés', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () async {
-                                      dataBundle.setCurrentLanguage('es');
-                                      Navigator.pushNamed(context, HomeScreen.id);
-                                    },
-                                    title: Row(
-                                      children: [
-                                        SvgPicture.asset('images/spain_flag.svg', width: 30),
-                                        Padding(
-                                          padding: const EdgeInsets.all(18.0),
-                                          child: Text('Español', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () async {
-                                      dataBundle.setCurrentLanguage('de');
-                                      Navigator.pushNamed(context, HomeScreen.id);
-                                    },
-                                    title: Row(
-                                      children: [
-                                        SvgPicture.asset('images/germanyflag.svg', width: 30),
-                                        Padding(
-                                          padding: const EdgeInsets.all(18.0),
-                                          child: Text('German', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            );
-                          });
-                    },
-                    backgroundColor: Colors.white,
-                    child: SvgPicture.asset(dataBundle.getImageFromLanguage(), fit: BoxFit.scaleDown),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 2, top: 2, right: 11),
-                  child: FloatingActionButton(
-                    heroTag: "btn1",
-                    onPressed: () {
-                      dataBundle.changemenutype();
-                    },
-                    backgroundColor: Colors.white,
-                    child: SvgPicture.asset(dataBundle.currentMenu == Menutype.A_LA_CARTE ? 'images/wine-food-svgrepo-com.svg' : 'images/bookrest.svg'),
-                  ),
-                ),
-              ],
             ),
-            body: dataBundle.dataRetrieved ? dataBundle.currentMenu == Menutype.A_LA_CARTE ?
-              ALaCarteWidget() : WineWidget() : FutureBuilder(
-              builder: (BuildContext context,
-                  AsyncSnapshot<dynamic> snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting){
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(38.0),
-                        child: Center(child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Color(0xff121212),
-                        )),
-                      ),
-                      Text('Caricamento dati..')
-                    ],
-                  );
-                }else if(snapshot.connectionState == ConnectionState.done){
-                  return dataBundle.currentMenu == Menutype.A_LA_CARTE ?
-                  ALaCarteWidget() : WineWidget();
-                }else{
-                  return Column(
-                    children: [
-                      Center(child: CircularProgressIndicator(
+            iconTheme: IconThemeData(color: Colors.black),
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            title: Text(dataBundle.currentMenu == Menutype.A_LA_CARTE ?
+            'A la carté' : 'Carta Vini',
+              style: TextStyle(fontSize: 24.0,
+                  color: Colors.grey.shade700, fontFamily: 'Dance', fontWeight: FontWeight.w700),
+            ),
+            centerTitle: true,
+            actions: [
+
+              dataBundle.manageraccess ? Padding(
+                padding: const EdgeInsets.only(bottom: 2, top: 2, right: 4),
+                child: FloatingActionButton(
+                  heroTag: "btn2",
+                  onPressed: () async {
+
+                    String format = dateFormat.format(DateTime.now());
+                    try{
+                      print('Call with this date : ' + format);
+                      Swagger swagger = dataBundle.getSwaggerClient();
+                      Response response = await swagger.apiV1CalendarconfFindallGet(fromDate: format);
+                      print(response.body);
+                      if(response.isSuccessful){
+                        List<CalendarConfiguration> list = response.body;
+                        dataBundle.setCalendarConfList(list);
+                      }else{
+                        print('Errore - Riprova');
+                      }
+                    }catch(e){
+                      print(e);
+                    }
+
+                    Navigator.pushNamed(context, CalendarManager.id);
+                  },
+                  backgroundColor: Colors.white,
+                  child: SvgPicture.asset('images/calendar.svg', fit: BoxFit.scaleDown),
+                ),
+              ) : Padding(
+                padding: const EdgeInsets.only(bottom: 2, top: 2, right: 4),
+                child: FloatingActionButton(
+                  heroTag: "btn2",
+                  onPressed: () {
+                    showModalBottomSheet(context: context,
+                        shape:RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        builder: (context){
+                          return Container(
+                            height: 420.0,
+                            color: Colors.transparent,
+                            child: Column(
+                              children: [
+                                Text('', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15)),
+                                ListTile(
+                                  onTap: () async {
+                                    dataBundle.setCurrentLanguage('it');
+                                    Navigator.pushNamed(context, HomeScreen.id);
+                                  },
+                                  title: Row(
+                                    children: [
+                                      SvgPicture.asset('images/italy_flag.svg', width: 30),
+                                      Padding(
+                                        padding: const EdgeInsets.all(18.0),
+                                        child: Text('Italiano', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () async {
+                                    dataBundle.setCurrentLanguage('en');
+                                    Navigator.pushNamed(context, HomeScreen.id);
+
+                                  },
+                                  title: Row(
+                                    children: [
+                                      SvgPicture.asset('images/england_flag.svg', width: 30),
+                                      Padding(
+                                        padding: const EdgeInsets.all(18.0),
+                                        child: Text('English', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () async {
+                                    dataBundle.setCurrentLanguage('fr');
+                                    Navigator.pushNamed(context, HomeScreen.id);
+                                  },
+                                  title: Row(
+                                    children: [
+                                      SvgPicture.asset('images/france_flag.svg', width: 30),
+                                      Padding(
+                                        padding: const EdgeInsets.all(18.0),
+                                        child: Text('Francés', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () async {
+                                    dataBundle.setCurrentLanguage('es');
+                                    Navigator.pushNamed(context, HomeScreen.id);
+                                  },
+                                  title: Row(
+                                    children: [
+                                      SvgPicture.asset('images/spain_flag.svg', width: 30),
+                                      Padding(
+                                        padding: const EdgeInsets.all(18.0),
+                                        child: Text('Español', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () async {
+                                    dataBundle.setCurrentLanguage('de');
+                                    Navigator.pushNamed(context, HomeScreen.id);
+                                  },
+                                  title: Row(
+                                    children: [
+                                      SvgPicture.asset('images/germanyflag.svg', width: 30),
+                                      Padding(
+                                        padding: const EdgeInsets.all(18.0),
+                                        child: Text('German', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  backgroundColor: Colors.white,
+                  child: SvgPicture.asset(dataBundle.getImageFromLanguage(), fit: BoxFit.scaleDown),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2, top: 2, right: 11),
+                child: FloatingActionButton(
+                  heroTag: "btn1",
+                  onPressed: () {
+                    dataBundle.changemenutype();
+                  },
+                  backgroundColor: Colors.white,
+                  child: SvgPicture.asset(dataBundle.currentMenu == Menutype.A_LA_CARTE ? 'images/wine-food-svgrepo-com.svg' : 'images/bookrest.svg'),
+                ),
+              ),
+            ],
+          ),
+          body: dataBundle.dataRetrieved ? dataBundle.currentMenu == Menutype.A_LA_CARTE ?
+          ALaCarteWidget() : WineWidget() : FutureBuilder(
+            builder: (BuildContext context,
+                AsyncSnapshot<dynamic> snapshot) {
+              if(snapshot.connectionState == ConnectionState.waiting){
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(38.0),
+                      child: Center(child: CircularProgressIndicator(
+                        strokeWidth: 2,
                         color: Color(0xff121212),
                       )),
-                      Text('Errore..')
-                    ],
-                  );
-                }
-              },
-              future: initData(dataBundle),
-            ),
+                    ),
+                    Text('Caricamento dati..')
+                  ],
+                );
+              }else if(snapshot.connectionState == ConnectionState.done){
+                return dataBundle.currentMenu == Menutype.A_LA_CARTE ?
+                ALaCarteWidget() : WineWidget();
+              }else{
+                return Column(
+                  children: [
+                    Center(child: CircularProgressIndicator(
+                      color: Color(0xff121212),
+                    )),
+                    Text('Errore..')
+                  ],
+                );
+              }
+            },
+            future: initData(dataBundle),
+          ),
         );
       },
     );

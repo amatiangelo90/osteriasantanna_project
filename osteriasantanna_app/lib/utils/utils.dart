@@ -5,21 +5,7 @@ import 'costants.dart';
 
 class Utils{
 
-  static List<DateTime> getUnavailableData(){
 
-    return [
-    DateTime.utc(2022,9 ,5 ,0 ,0 ,0 ,0 ,0),
-    DateTime.utc(2022,9 ,12 ,0 ,0 ,0 ,0 ,0),
-    DateTime.utc(2022,9 ,19 ,0 ,0 ,0 ,0 ,0),
-    DateTime.utc(2022,9 ,26 ,0 ,0 ,0 ,0 ,0),
-    DateTime.utc(2022,10 ,6 ,0 ,0 ,0 ,0 ,0),
-    DateTime.utc(2022,10 ,10 ,0 ,0 ,0 ,0 ,0),
-    DateTime.utc(2022,10 ,16, 0 ,0 ,0 ,0 ,0),
-    DateTime.utc(2022,10 ,17 ,0 ,0 ,0 ,0 ,0),
-    DateTime.utc(2022,10 ,24 ,0 ,0 ,0 ,0 ,0),
-    DateTime.utc(2022,10 ,31 ,0 ,0 ,0 ,0 ,0),
-    ];
-  }
 
   static String getWeekDay(int weekday) {
     switch(weekday){

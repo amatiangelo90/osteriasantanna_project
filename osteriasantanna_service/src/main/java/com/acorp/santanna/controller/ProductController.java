@@ -14,12 +14,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ProductController {
 
-    private ProductService productService;
-
     @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private ProductService productService;
 
     @GetMapping(path = "/findall")
     public List<Product> retrieveAll(){
@@ -35,8 +31,8 @@ public class ProductController {
     }
 
     @PutMapping(path = "/update")
-    public void update(Product product){
-        productService.update(product);
+    public Product update(Product product){
+        return productService.update(product);
     }
 
 
