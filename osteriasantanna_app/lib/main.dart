@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => DataBundleNotifier(),
       child: MaterialApp(
+          color: Color(0xff121212),
           debugShowCheckedModeBanner: false,
           title: 'Osteria Menu',
           initialRoute: SplashScreenSantAnna.id,

@@ -8,7 +8,6 @@ class HttpService {
       String name,
       String total,
       String time,
-
       String uniqueId,
       String typeOrder,
       String datePickupDelivery,
@@ -20,7 +19,6 @@ class HttpService {
     print('Coglione 1');
     var url = 'https://api.whatsapp.com/send/?phone=$number&text=$message';
     print(url);
-
       try{
         await launch(url);
       }catch(e){

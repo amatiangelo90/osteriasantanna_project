@@ -1,3 +1,4 @@
+import 'package:chopper/chopper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/slider_theme.dart';
@@ -39,8 +40,8 @@ class DataBundleNotifier extends ChangeNotifier{
   }
 
   String baseUrlHttps = 'https://servicedbacorp741w.com:8444/santannaservice';
-  //String baseUrlHttp = 'http://servicedbacorp741w.com:8080/santannaservice';
-  String baseUrlHttp = 'http://localhost:16172/santannaservice';
+  String baseUrlHttp = 'http://servicedbacorp741w.com:8080/santannaservice';
+  //String baseUrlHttp = 'http://localhost:16172/santannaservice';
 
   Swagger getSwaggerClient(){
     if(kIsWeb){
@@ -309,6 +310,107 @@ class DataBundleNotifier extends ChangeNotifier{
     notifyListeners();
   }
 
+  Row getCalendarConfBySelectedDate(DateTime selectedDay) {
+
+    CalendarConfiguration toReturn = CalendarConfiguration();
+    calendarConfList.forEach((element) {
+      if(element.date == dateFormat.format(selectedDay)){
+        toReturn = element;
+      }
+    });
+
+    Row rowsButton = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        toReturn.launch == CalendarConfigurationLaunch.open ? ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+            padding: MaterialStateProperty.all(EdgeInsets.all(30)),
+            textStyle: MaterialStateProperty.all(TextStyle(fontSize: 20)),
+          ),
+          onPressed: () async {
+            Response apiV1CalendarconfUpdatePut = await getSwaggerClient().apiV1CalendarconfUpdatePut(
+                calendarConfId: toReturn.calendarConfId!.toInt(),
+                launch: calendarConfigurationLaunchToJson(CalendarConfigurationLaunch.close),
+                dinner: calendarConfigurationDinnerToJson(toReturn!.dinner),
+                date: toReturn.date);
+
+            print('call: ' + apiV1CalendarconfUpdatePut.body.toString());
+
+            if(apiV1CalendarconfUpdatePut.isSuccessful){
+              updateCalendar(apiV1CalendarconfUpdatePut.body);
+            }
+          },
+          child: Text('Chiudi a pranzo'),
+        ) : Text(''),
+        toReturn.launch == CalendarConfigurationLaunch.close ? ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.green),
+            padding: MaterialStateProperty.all(EdgeInsets.all(30)),
+            textStyle: MaterialStateProperty.all(TextStyle(fontSize: 20)),
+          ),
+          onPressed: () async {
+
+            Response apiV1CalendarconfUpdatePut = await getSwaggerClient().apiV1CalendarconfUpdatePut(
+                calendarConfId: toReturn.calendarConfId!.toInt(),
+                launch: calendarConfigurationLaunchToJson(CalendarConfigurationLaunch.open),
+                dinner: calendarConfigurationDinnerToJson(toReturn!.dinner),
+                date: toReturn.date);
+
+            print('call: ' + apiV1CalendarconfUpdatePut.body.toString());
+
+            if(apiV1CalendarconfUpdatePut.isSuccessful){
+              updateCalendar(apiV1CalendarconfUpdatePut.body);
+            }
+          },
+          child: Text('Apri a pranzo'),
+        ) : Text(''),
+        toReturn.dinner == CalendarConfigurationDinner.open ? ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+            padding: MaterialStateProperty.all(EdgeInsets.all(30)),
+            textStyle: MaterialStateProperty.all(TextStyle(fontSize: 20)),
+          ),
+          onPressed: () async {
+
+            Response apiV1CalendarconfUpdatePut = await getSwaggerClient().apiV1CalendarconfUpdatePut(
+                calendarConfId: toReturn.calendarConfId!.toInt(),
+                dinner: calendarConfigurationDinnerToJson(CalendarConfigurationDinner.close),
+                launch: calendarConfigurationLaunchToJson(toReturn!.launch),
+                date: toReturn.date);
+
+            if(apiV1CalendarconfUpdatePut.isSuccessful){
+              updateCalendar(apiV1CalendarconfUpdatePut.body);
+            }
+          },
+          child: Text('Chiudi a cena'),
+        ) : Text(''),
+        toReturn.dinner == CalendarConfigurationDinner.close ? ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.green),
+            padding: MaterialStateProperty.all(EdgeInsets.all(30)),
+            textStyle: MaterialStateProperty.all(TextStyle(fontSize: 20)),
+          ),
+          onPressed: () async {
+
+            Response apiV1CalendarconfUpdatePut = await getSwaggerClient().apiV1CalendarconfUpdatePut(
+                calendarConfId: toReturn.calendarConfId!.toInt(),
+                dinner: calendarConfigurationDinnerToJson(CalendarConfigurationDinner.open),
+                launch: calendarConfigurationLaunchToJson(toReturn!.launch),
+                date: toReturn.date);
+
+            if(apiV1CalendarconfUpdatePut.isSuccessful){
+              updateCalendar(apiV1CalendarconfUpdatePut.body);
+            }
+          },
+          child: Text('Apri a cena'),
+        ) : Text(''),
+      ],
+    );
+
+    return rowsButton;
+  }
+
   void fillCalendarWithemptyDateConfiguration(List<String> buildAlreadyConfiguredDate) {
     List<String> buildDates = buildDatesList(buildAlreadyConfiguredDate);
     buildDates.forEach((element) {
@@ -366,7 +468,6 @@ class DataBundleNotifier extends ChangeNotifier{
   List<DropdownMenuItem> currentHoursList = [];
 
   setCurrentHoursList(DateTime time){
-
     calendarConfList.forEach((cal) {
       if(cal.date == dateFormat.format(time)){
         if(cal.dinner == CalendarConfigurationDinner.close && cal.launch == CalendarConfigurationLaunch.close){
@@ -401,28 +502,24 @@ class DataBundleNotifier extends ChangeNotifier{
       value: 3,
     ),
     const DropdownMenuItem(
-      child: Center(child: Text("14:00")),
+      child: Center(child: Text("20:00")),
       value: 4,
     ),
     const DropdownMenuItem(
-      child: Center(child: Text("20:00")),
+      child: Center(child: Text("20:30")),
       value: 5,
     ),
     const DropdownMenuItem(
-      child: Center(child: Text("20:30")),
+      child: Center(child: Text("21:00")),
       value: 6,
     ),
     const DropdownMenuItem(
-      child: Center(child: Text("21:00")),
+      child: Center(child: Text("21:30")),
       value: 7,
     ),
     const DropdownMenuItem(
-      child: Center(child: Text("21:30")),
-      value: 8,
-    ),
-    const DropdownMenuItem(
       child: Center(child: Text("22:00")),
-      value: 9,
+      value: 8,
     ),
   ];
 
@@ -438,10 +535,6 @@ class DataBundleNotifier extends ChangeNotifier{
     const DropdownMenuItem(
       child: Center(child: Text("13:30")),
       value: 3,
-    ),
-    const DropdownMenuItem(
-      child: Center(child: Text("14:00")),
-      value: 4,
     ),
   ];
 
@@ -468,6 +561,8 @@ class DataBundleNotifier extends ChangeNotifier{
       value: 5,
     ),
   ];
+
+
 
 
 

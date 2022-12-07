@@ -157,35 +157,28 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Colors.transparent,
             elevation: 0.0,
             title: Text(dataBundle.currentMenu == Menutype.A_LA_CARTE ?
-            'A la carté' : 'Carta Vini',
-              style: TextStyle(fontSize: 24.0,
+            'A la carté' : 'Vini',
+              style: TextStyle(fontSize: 18.0,
                   color: Colors.grey.shade700, fontFamily: 'Dance', fontWeight: FontWeight.w700),
             ),
-            centerTitle: true,
+            centerTitle: false,
             actions: [
-
+              dataBundle.manageraccess ? Text('') : Padding(
+                padding: const EdgeInsets.only(bottom: 2, top: 2, right: 4),
+                child: FloatingActionButton(
+                  heroTag: "btn2",
+                  onPressed: () async {
+                    Navigator.pushNamed(context, ReservationScreen.id);
+                  },
+                  backgroundColor: Colors.white,
+                  child: SvgPicture.asset('images/calendar.svg', fit: BoxFit.scaleDown),
+                ),
+              ),
               dataBundle.manageraccess ? Padding(
                 padding: const EdgeInsets.only(bottom: 2, top: 2, right: 4),
                 child: FloatingActionButton(
                   heroTag: "btn2",
                   onPressed: () async {
-
-                    String format = dateFormat.format(DateTime.now());
-                    try{
-                      print('Call with this date : ' + format);
-                      Swagger swagger = dataBundle.getSwaggerClient();
-                      Response response = await swagger.apiV1CalendarconfFindallGet(fromDate: format);
-                      print(response.body);
-                      if(response.isSuccessful){
-                        List<CalendarConfiguration> list = response.body;
-                        dataBundle.setCalendarConfList(list);
-                      }else{
-                        print('Errore - Riprova');
-                      }
-                    }catch(e){
-                      print(e);
-                    }
-
                     Navigator.pushNamed(context, CalendarManager.id);
                   },
                   backgroundColor: Colors.white,
